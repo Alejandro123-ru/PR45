@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Context\" />
+    <Folder Include="Context\Новая папка\" />
     <Folder Include="Controllers\" />
   </ItemGroup>
 
