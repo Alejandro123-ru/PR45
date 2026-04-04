@@ -5,6 +5,7 @@ using Pr45_Api_Lisitskiy.Models;
 namespace Pr45_Api_Lisitskiy.Controllers
 {
     [Route("api/TasksController")]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class TasksController : Controller
     {
         ///<summary>
