@@ -11,7 +11,7 @@ builder.Services.AddSwaggerGen(option =>
         Title = "Пробая версия"
     });
 
-    string PathFile = Path.Combine(System.AppContext.BaseDirectory, "WebApplication2.xml");
+    string PathFile = Path.Combine(System.AppContext.BaseDirectory, "Pr45_Api_Lisitskiy.xml");
     option.IncludeXmlComments(PathFile);
 });
 

@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <Folder Include="Context\Новая папка\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>
