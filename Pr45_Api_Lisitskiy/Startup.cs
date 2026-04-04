@@ -6,26 +6,33 @@ namespace Pr45_Api_Lisitskiy
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            // Отключаем маршрутизацию по конечным точкам, говоря о том что будем использовать
-            // устаревшую технологию
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            // Сообщаем что будем использовать swagger, со следующими настройками
+
             services.AddSwaggerGen(c =>
             {
-                // Прописываем документацию для версии 1
+                // Версия 1
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    // Указываем версию документации
                     Version = "v1",
-                    // Указываем заголовок документации
-                    Title = "Руководство для использования запросов",
-                    // Указываем описание документации
-                    Description = "Полное руководство для использования запросов находящихся в проекте"
+                    Title = "Запросы GET",
+                    Description = "Полное руководство для GET запросов"
                 });
-                // Получаем путь до XML комментариев
-                var filePath = Path.Combine(System.AppContext.BaseDirectory, "ASP_GET.xml");
-                // Подключаем XML комментарии для swagger
-                c.IncludeXmlComments(filePath);
+
+                // Версия 2
+                c.SwaggerDoc("v2", new OpenApiInfo
+                {
+                    Version = "v2",
+                    Title = "Запросы POST",
+                    Description = "Полное руководство для POST запросов"
+                });
+
+                // Подключаем XML комментарии для каждой версии
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, "ASP_GET.xml");
+                c.IncludeXmlComments(xmlPath);
+
+                // Если есть отдельный XML для POST запросов, добавьте его:
+                // var xmlPath2 = Path.Combine(AppContext.BaseDirectory, "ASP_POST.xml");
+                // c.IncludeXmlComments(xmlPath2);
             });
         }
 
@@ -44,6 +51,7 @@ namespace Pr45_Api_Lisitskiy
             {
                 // Устанавливаем использование конечной точки для первой версии
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Запросы GET");
+                c.SwaggerEndpoint("/swagger/v2/swagger.json", "Запросы POST");
             });
         }
     }

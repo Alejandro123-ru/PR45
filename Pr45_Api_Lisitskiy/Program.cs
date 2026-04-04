@@ -8,7 +8,15 @@ builder.Services.AddSwaggerGen(option =>
     option.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
     {
         Version = "v1",
-        Title = "Пробая версия"
+        Title = "Запросы GET",      
+        Description = "GET запросы API"
+    });
+
+    option.SwaggerDoc("v2", new Microsoft.OpenApi.Models.OpenApiInfo  
+    {
+        Version = "v2",
+        Title = "Запросы POST",     
+        Description = "POST запросы API"
     });
 
     string PathFile = Path.Combine(System.AppContext.BaseDirectory, "Pr45_Api_Lisitskiy.xml");
@@ -27,7 +35,8 @@ app.UseEndpoints(endpoints =>
 
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Пробая версия");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Запросы GET");
+    c.SwaggerEndpoint("/swagger/v2/swagger.json", "Запросы POST");
 });
 
 app.Run();
