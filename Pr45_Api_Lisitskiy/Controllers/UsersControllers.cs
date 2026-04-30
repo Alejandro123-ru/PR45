@@ -29,6 +29,36 @@ namespace Pr45_Api_Lisitskiy.Controllers
                 return StatusCode(500);
             }
         }
+
+        [Route("RegIn")]
+        [HttpPost]
+        [ProducesResponseType(typeof(List<Tasks>), 200)]
+        [ProducesResponseType(403)]
+        [ProducesResponseType(500)]
+        public ActionResult RegIn([FromForm] string Login, [FromForm] string Password)
+        {
+            if (Login == null || Password == null)
+            {
+                return StatusCode(403);
+            }
+            try
+            {
+                Users User = new Users
+                {
+                    Login = Login,
+                    Password = Password
+                };
+
+                UsersContext userCtxt = new UsersContext();
+                userCtxt.Users.Add(User);
+                userCtxt.SaveChanges();
+                return Json(User);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
 
