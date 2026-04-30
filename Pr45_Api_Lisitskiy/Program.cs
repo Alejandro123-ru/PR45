@@ -27,6 +27,12 @@ builder.Services.AddSwaggerGen(option =>
         Title = "Запросы PUT",
         Description = "PUT запросы API"
     });
+    option.SwaggerDoc("v4", new Microsoft.OpenApi.Models.OpenApiInfo
+    {
+        Version = "v4",
+        Title = "Запросы DELETE",
+        Description = "DELETE запросы API"
+    });
 
     string PathFile = Path.Combine(System.AppContext.BaseDirectory, "Pr45_Api_Lisitskiy.xml");
     option.IncludeXmlComments(PathFile);
@@ -50,6 +56,7 @@ app.UseSwaggerUI(c =>
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Запросы GET");
     c.SwaggerEndpoint("/swagger/v2/swagger.json", "Запросы POST");
     c.SwaggerEndpoint("/swagger/v3/swagger.json", "Запросы PUT");
+    c.SwaggerEndpoint("/swagger/v4/swagger.json", "Запросы DELETE");
 });
 
 app.UseRouting();

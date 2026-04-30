@@ -114,5 +114,51 @@ namespace Pr45_Api_Lisitskiy.Controllers
                 return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
             }
         }
+
+        [Route("Delete")]
+        [HttpDelete]
+        [ApiExplorerSettings(GroupName = "v4")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public ActionResult DeleteById(int id)
+        {
+            try
+            {
+                TaskContext taskContext = new TaskContext();
+                var task = taskContext.Tasks.Find(id);
+                taskContext.Tasks.Remove(task);
+                taskContext.SaveChanges();
+
+                return StatusCode(200);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [Route("DeleteAll")]
+        [HttpDelete]
+        [ApiExplorerSettings(GroupName = "v4")]
+        [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(500)]
+        public ActionResult DeleteAll()
+        {
+            try
+            {
+                TaskContext taskContext = new TaskContext();
+                
+                taskContext.Tasks.RemoveRange(taskContext.Tasks);
+                taskContext.SaveChanges();
+
+                return StatusCode(200);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
