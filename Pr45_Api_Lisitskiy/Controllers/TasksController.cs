@@ -4,17 +4,10 @@ using Pr45_Api_Lisitskiy.Models;
 
 namespace Pr45_Api_Lisitskiy.Controllers
 {
-    [Route("api/TasksController")]
+    [Route("api/[controller]")]
     [ApiExplorerSettings(GroupName = "v1")]
     public class TasksController : Controller
     {
-        ///<summary>
-        ///Получение списка задач
-        ///</summary>
-        ///<remarks>Данный метод получает список задач, находящийся в базе данных</remarks>
-        /// <response code="200">Список успешно получен</response>
-        ///<response code="500">При выполнении запроса возникли ошибки</response>
-
         [Route("list")]
         [HttpGet]
         [ProducesResponseType(typeof(List<Tasks>), 200)]
@@ -23,9 +16,9 @@ namespace Pr45_Api_Lisitskiy.Controllers
         {
             try
             {
-                // получаем список задач из базы данных
-                IEnumerable<Tasks> Tasks = new TaskContext().Tasks;
-                return Json(Tasks); // возвращаем ответ в виде JSON
+                using var context = new TaskContext();  // ← используйте using
+                IEnumerable<Tasks> Tasks = context.Tasks.ToList();
+                return Json(Tasks);
             }
             catch
             {
@@ -33,28 +26,27 @@ namespace Pr45_Api_Lisitskiy.Controllers
             }
         }
 
-        //Получение задачи
-        //</summary>
-        //<remarks>Данный метод получает задачу, находящуюся в базе данных</remarks>
-        // <response code="200">Задача успешно получена</response>
-        // <response code="500">При выполнении запроса возникли ошибки</response>
         [Route("item")]
         [HttpGet]
-        [ProducesResponseType(typeof(List<Tasks>), 200)]
+        [ProducesResponseType(typeof(Tasks), 200)]  // ← Tasks, а не List<Tasks>
+        [ProducesResponseType(404)]
         [ProducesResponseType(500)]
         public ActionResult Item(int Id)
         {
             try
             {
-                // Получаем задачу по коду
-                Tasks Task = new TaskContext().Tasks.Where(x => x.Id == Id).First();
-                return Json(Task); // возвращаем ответ в виде Json
+                using var context = new TaskContext();
+                Tasks Task = context.Tasks.FirstOrDefault(x => x.Id == Id);
+
+                if (Task == null)
+                    return NotFound();
+
+                return Json(Task);
             }
-            catch (Exception exp)
+            catch
             {
-                return StatusCode(500); // если возникли неполадки, выдаём 500 ошибку (ошибку сервера)
+                return StatusCode(500);
             }
-            
         }
     }
 }

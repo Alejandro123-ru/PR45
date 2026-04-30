@@ -15,7 +15,7 @@ namespace Pr45_Api_Lisitskiy.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;uid=root;database=TaskManager", new MySqlServerVersion(new Version(8, 0, 11)));
+            optionsBuilder.UseMySql("server=127.0.0.1;uid=root;database=TaskManager", new MySqlServerVersion(new Version(8, 0, 11)));
         }
     }
 }
